@@ -11,8 +11,9 @@ class App extends Component {
     return (
       <BrowserRouter>
         <Switch>
-          <Route path="/" exact component={Lists} />
           <Route path="/:id" exact component={Detail} />
+          <Route path="/" exact component={Lists} />
+
         </Switch>
       </BrowserRouter>
     );

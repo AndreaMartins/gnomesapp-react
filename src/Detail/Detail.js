@@ -1,5 +1,7 @@
 import React, {Component} from 'react';
 import axios from 'axios';
+import { Link } from 'react-router-dom';
+import './Detail.css';
 
 class Detail extends Component {
 
@@ -8,79 +10,76 @@ class Detail extends Component {
     loadedGnome:null
   }
 
-//get all the list of gnomes
 
-  // componentDidMount () {
-  //
-  //   if (this.props.match.params.id) {
-  //     if( !this.state.loadedGnome || (this.state.loadedGnome))
-  //
-  //   }
-  //
+  componentDidMount () {
+      this.loadData();
+  }
+
+  // componentDidUpdate() {
+  //     this.loadData();
   // }
 
+  loadData () {
+      if ( this.props.match.params.id ) {
+          if ( !this.state.loadedGnome || (this.state.loadedGnome && this.state.loadedGnome.id !== +this.props.match.params.id) ) {
+              axios.get( 'https://raw.githubusercontent.com/rrafols/mobile_test/master/data.json')
+                  .then( response => {
+                      // console.log(this.props.match.params.id)
+                      const index = this.props.match.params.id
+                      console.log(response.data.Brastlewark)
+                      // console.log(response);
+                      this.setState( {loadedGnome: response.data.Brastlewark[index]} );
+                      // console.log (this.loadedGnome)
+                  } );
+          }
+      }
+  }
+
+
+
+
+  render () {
+      let gnome = <p style={{ textAlign: 'center' }}>Please select a Post!</p>;
+      if ( this.props.match.params.id ) {
+          gnome = <p style={{ textAlign: 'center' }}>Loading...!</p>;
+      }
+      if ( this.state.loadedGnome ) {
+          gnome = (
+            <div className="gencontainer">
+              <div className="container">
+                <div className="titlegnome">
+                  <div className="titlegnome__title">
+                    <h1> { this.state.loadedGnome.name } </h1>
+                  </div>
+                  <p>{ this.state.loadedGnome.professions}</p>
+                  <p>{ this.state.loadedGnome.age } years old</p>
+                </div>
+                <div className="containergnome">
+                  <figure className="containergnomel__shape">
+                    <img src={ this.state.loadedGnome.thumbnail } className="containergnomel__img"/>
+                  </figure>
+                </div>
+                <div className="infognome">
+                  <ul>
+                    <li>{ this.state.loadedGnome.hair_color } hair color </li>
+                    <li>{ this.state.loadedGnome.weight } kg. - { this.state.loadedGnome.height} cm.</li>
+                    <li>Friends: { this.state.loadedGnome.friends }</li>
+                  </ul>
+                </div>
+              </div>
+              <div className="goback">
+                <Link to="/">
+                  <button className="btn-inline"><span> Go Back!</span>  </button>
+                </Link>
+
+              </div>
+            </div>
+
+          );
+      }
+      return gnome;
+  }
 
 }
 
 export default Detail;
-
-
-// Get all the contacts from the backend,
-// Compare the id from the route with all the ids of the other contacts .
-// Find the contact that match and renders it .
-
-
-// providers: [AppService]
-// })
-//
-// export class DetailComponent implements OnInit {
-//
-// data: any;
-// id: number;
-// contact: any = {
-//   age: '',
-//   friends: '',
-//   hair_color: '',
-//   height: '',
-//   id: '',
-//   name: '',
-//   professions: '',
-//   thumbnail: '',
-//   weight: ''
-// }
-//
-// constructor(private appService: AppService,
-//   private route: ActivatedRoute) {
-// }
-//
-// ngOnInit() {
-//   this.getContacts();
-// }
-//
-// getParams() {
-//   this.route.params
-//     .subscribe(
-//       (params: Params) => {
-//         this.id = +params['id'];
-//         this.contact = this.getContact(this.id);
-//         console.log(this.contact);
-//       }
-//     );
-// }
-//
-// getContacts() {
-//   this.appService.getData().subscribe(
-//     (data: any) => {
-//       this.data = data.Brastlewark;
-//       this.getParams();
-//     },
-//     (error) => console.log(error),
-//   );
-// }
-//
-// getContact(index: number) {
-//   return this.data[index];
-// }
-//
-//
-// }
