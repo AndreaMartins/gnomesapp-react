@@ -9,7 +9,8 @@ class Lists extends Component {
 
 //receive the list of gnomes
   state = {
-    gnomes:[]
+    gnomes:[],
+    input: '',
   }
 
 //get all the list of gnomes
@@ -27,9 +28,16 @@ class Lists extends Component {
     this.props.history.push('/' + id);
   }
 
+  onChangeHandler(e){
+    this.setState({
+      input: e.target.value,
+    })
+  }
 
   render () {
-      const gnomes = this.state.gnomes.map(gnome => {
+      const gnomes = this.state.gnomes
+      .filter(gnome => gnome.age == this.state.input || this.state.input == '')
+      .map(gnome => {
           return(
           <div key={gnome.id} className="containergnome" onClick={ () => this.gnomeSelectedHandler(gnome.id)} >
             <div className="containergnome__item">
@@ -55,7 +63,7 @@ class Lists extends Component {
                 Brastlewark!
               </h1>
               <div className="search">
-                <input type="text" placeholder="  Search Gnome by age" />
+                <input value={this.state.input} type="text" onChange={this.onChangeHandler.bind(this)} placeholder="  Search Gnome by age" />
               </div>
             </div>
           </nav>
