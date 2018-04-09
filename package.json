@@ -2,8 +2,10 @@
   "name": "gnomesapp-react",
   "version": "0.1.0",
   "private": true,
+  "homepage": "https://andreamartins.github.io/gnomesapp-react/",
   "dependencies": {
     "axios": "^0.18.0",
+    "gh-pages": "^1.1.0",
     "react": "^16.3.1",
     "react-dom": "^16.3.1",
     "react-router": "^4.2.0",
@@ -16,6 +18,8 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
+    "predeploy": "npm run build",
+    "deploy":"gh-pages -d build",
     "eject": "react-scripts eject"
   }
 }
